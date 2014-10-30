@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://jimmykuruvilla.github.io/sitemap.xml 
+Sitemap: http://JimmyKuruvilla.github.io/sitemap.xml 

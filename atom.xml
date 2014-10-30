@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Not A Programming Joke]]></title>
-  <link href="http://jimmykuruvilla.github.io/atom.xml" rel="self"/>
-  <link href="http://jimmykuruvilla.github.io/"/>
-  <updated>2014-10-16T21:45:20-04:00</updated>
-  <id>http://jimmykuruvilla.github.io/</id>
+  <link href="http://JimmyKuruvilla.github.io/atom.xml" rel="self"/>
+  <link href="http://JimmyKuruvilla.github.io/"/>
+  <updated>2014-10-30T17:55:05-04:00</updated>
+  <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
     
@@ -14,10 +14,204 @@
 
   
   <entry>
+    <title type="html"><![CDATA[What Happens When You Grow a Database Sideways?]]></title>
+    <link href="http://JimmyKuruvilla.github.io/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns/"/>
+    <updated>2014-10-30T17:32:09-04:00</updated>
+    <id>http://JimmyKuruvilla.github.io/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns</id>
+    <content type="html"><![CDATA[<p>The short answer is that it gets slow. I had heard this before but decided to confirm it with some code. I used SQLite for the database, ActiveRecord to ease the SQL work, and Ruby to automate table generation. Tables of sizes from 100 to 1000 columns and rows were created and populated, and then randomly queried 100 times per benchmark. The benchmarks were averaged and compiled to generate the summary chart.</p>
+
+<p>The code for the helper methods are below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;./config/environment.rb&quot;</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;./log&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">destroy_db</span>
+</span><span class='line'>    <span class="sb">`rm &quot;db/halloween_development.sqlite&quot;`</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">migrate_db</span>
+</span><span class='line'>  <span class="sb">`rake db:migrate`</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">bench_the_block</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Benchmark</span><span class="o">.</span><span class="n">bmbm</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">x</span><span class="o">.</span><span class="n">report</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">num</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">create_migrations</span><span class="p">(</span><span class="n">num_attribs</span><span class="p">,</span>  <span class="n">model_name</span><span class="p">)</span><span class="c1">#model name plural</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">model_name</span><span class="o">==</span><span class="s2">&quot;candies&quot;</span>
+</span><span class='line'>  <span class="sb">`rm &quot;db/migrate/01_create_</span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="sb">.rb&quot;`</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">=</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;./db/migrate/01_create_</span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.rb&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>  <span class="sb">`rm &quot;db/migrate/02_create_</span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="sb">.rb&quot;`</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">=</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;./db/migrate/02_create_</span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.rb&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">table_attributes</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.num_attribs</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">table_attributes</span> <span class="o">+=</span> <span class="s2">&quot;t.string :&#39;</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;class Create</span><span class="si">#{</span><span class="n">model_name</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2"> &lt; ActiveRecord::Migration</span>
+</span><span class='line'><span class="s2">            def change</span>
+</span><span class='line'><span class="s2">            create_table :</span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> do |t|</span>
+</span><span class='line'><span class="s2">              </span><span class="si">#{</span><span class="n">table_attributes</span><span class="si">}</span><span class="s2"></span>
+</span><span class='line'><span class="s2">            end</span>
+</span><span class='line'><span class="s2">          end</span>
+</span><span class='line'><span class="s2">        end</span>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">f</span><span class="o">.</span><span class="n">close</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">migrate_db</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">populate</span><span class="p">(</span><span class="n">num_columns</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span><span class="c1">#model name singular</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">m</span><span class="o">=</span><span class="no">Class</span><span class="o">.</span><span class="n">const_get</span><span class="p">(</span><span class="n">model_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s2">&quot;horizontal&quot;</span>
+</span><span class='line'>    <span class="n">m</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;1&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="c1">#House.create(&quot;1&quot; =&gt; &quot;x&quot;)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.num_columns</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">m</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">mode</span><span class="o">==</span><span class="s2">&quot;vertical&quot;</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.num_columns</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">m</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;1&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="c1">#number of columns or rows</span>
+</span><span class='line'><span class="n">times</span><span class="o">=</span><span class="mi">100</span><span class="c1">#number of times to run the benchmark</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># destroy_db</span>
+</span><span class='line'><span class="c1"># create_migrations(num, &quot;houses&quot;)#houses</span>
+</span><span class='line'><span class="c1"># populate(num, &quot;house&quot;, &quot;horizontal&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># create_migrations(1, &quot;candies&quot;)</span>
+</span><span class='line'><span class="c1"># populate(num, &quot;candy&quot;, &quot;vertical&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># puts &quot;Random lookups at #{num} columns&quot;</span>
+</span><span class='line'><span class="c1"># bench_the_block(times){z=rand(1..num); House.find_by(&quot;#{z}&quot;=&gt;z)}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># puts &quot;Random lookups at #{num} rows&quot;</span>
+</span><span class='line'><span class="c1"># bench_the_block(times){Candy.find_by(&quot;1&quot; =&gt; &quot;#{rand(1..num)}&quot;)}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Summary</h2>
+
+<p>SQLite3 has a default column limit of 2000! So I wasn&rsquo;t able to get to the millions of columns I wanted to try. This can be changed but only to about 35k columns. Cursory review of stack overflow indicates that having a database with more than a 100 columns is usually a design flaw with the database.</p>
+
+<p><img class="left" src="http://JimmyKuruvilla.github.io/images/SQLITE_chart.png" width="500" height="400" title="image" alt="images"></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Ruby: Inject/Reduce Method]]></title>
-    <link href="http://jimmykuruvilla.github.io/blog/2014/10/08/testing/"/>
+    <link href="http://JimmyKuruvilla.github.io/blog/2014/10/08/testing/"/>
     <updated>2014-10-08T21:54:40-04:00</updated>
-    <id>http://jimmykuruvilla.github.io/blog/2014/10/08/testing</id>
+    <id>http://JimmyKuruvilla.github.io/blog/2014/10/08/testing</id>
     <content type="html"><![CDATA[<h4>Ruby has an Enumerable method called inject and it makes summing or getting the product of an array of values a snap. Below are some extended examples of it in use:</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

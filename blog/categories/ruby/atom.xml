@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ruby | Not A Programming Joke]]></title>
-  <link href="http://jimmykuruvilla.github.io/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://jimmykuruvilla.github.io/"/>
-  <updated>2014-10-16T21:45:20-04:00</updated>
-  <id>http://jimmykuruvilla.github.io/</id>
+  <link href="http://JimmyKuruvilla.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://JimmyKuruvilla.github.io/"/>
+  <updated>2014-10-30T17:55:05-04:00</updated>
+  <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby: Inject/Reduce Method]]></title>
-    <link href="http://jimmykuruvilla.github.io/blog/2014/10/08/testing/"/>
+    <link href="http://JimmyKuruvilla.github.io/blog/2014/10/08/testing/"/>
     <updated>2014-10-08T21:54:40-04:00</updated>
-    <id>http://jimmykuruvilla.github.io/blog/2014/10/08/testing</id>
+    <id>http://JimmyKuruvilla.github.io/blog/2014/10/08/testing</id>
     <content type="html"><![CDATA[<h4>Ruby has an Enumerable method called inject and it makes summing or getting the product of an array of values a snap. Below are some extended examples of it in use:</h4>
 
 <pre><code class="ruby">#'injects' 0 in for sum before we start summing so 
