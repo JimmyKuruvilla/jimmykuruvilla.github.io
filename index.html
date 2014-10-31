@@ -86,9 +86,9 @@
   </header>
 
 
-  <div class="entry-content"><p>The short answer is that it gets slow. I had heard this before but decided to confirm it with some code. I used SQLite for the database, ActiveRecord to ease the SQL work, and Ruby to automate table generation. Tables of sizes from 100 to 1000 columns and rows were created and populated, and then randomly queried 100 times per benchmark. The benchmarks were averaged and compiled to generate the summary chart.</p>
+  <div class="entry-content"><p>The short answer is that it gets slow. I had heard this before but decided to confirm it with some code. I used SQLite for the database, ActiveRecord to ease the SQL work, and Ruby to automate table generation. Tables of sizes from 100 to 1000 columns and rows were created and populated, and then randomly queried 100 times per benchmark. The benchmarks were averaged and compiled to generate the summary chart.  To keep things simple, I only tested a single column of 1000 records, or a single row with 1000 attributes (columns).</p>
 
-<p>The code for the helper methods are below:</p>
+<p>The code for the helper methods:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -256,7 +256,7 @@
 </span><span class='line'><span class="c1"># create_migrations(num, &quot;houses&quot;)#houses</span>
 </span><span class='line'><span class="c1"># populate(num, &quot;house&quot;, &quot;horizontal&quot;)</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1"># create_migrations(1, &quot;candies&quot;)</span>
+</span><span class='line'><span class="c1"># create_migrations(1, &quot;candies&quot;)w</span>
 </span><span class='line'><span class="c1"># populate(num, &quot;candy&quot;, &quot;vertical&quot;)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># puts &quot;Random lookups at #{num} columns&quot;</span>
