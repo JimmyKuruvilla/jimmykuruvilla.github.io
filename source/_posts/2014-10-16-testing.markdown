@@ -1,0 +1,62 @@
+---
+layout: post
+title: "Ruby: Inject/Reduce Method"
+date: 2014-10-08 21:54:40 -0400
+comments: true
+categories: Ruby 
+published: true
+author: Jimmy Kuruvilla
+---
+
+####Ruby has an Enumerable method called inject and it makes summing or getting the product of an array of values a snap. Below are some extended examples of it in use:
+
+
+```ruby
+#'injects' 0 in for sum before we start summing so 
+#the result is 1+1+1
+[1,1,1].inject(0) {|sum, value| sum+value} 
+#'injects' a value of 1 in for sum before we start summing so 
+#the result is 1+1+1+1=4
+[1,1,1].inject(1) {|sum, value| sum+value} 
+#nothing injected, so the first argument (sum) takes the 
+#value of the first item in the array (1). The result here is 1+1+1=3. 
+[1,1,1].inject() {|sum, value| sum+value} 
+
+#This will give you the product of the injected 0x1x1x1=0
+[1,1,1].inject(0) {|product, value| product*value} 
+#This will give you the product of the injected 1x1x1x1=1
+[1,1,1].inject(1) {|product, value| product*value} 
+#This will give you the product of the first value of the
+#arrayx1x1=1
+[1,1,1].inject() {|product, value| product*value} 
+```
+##So what does inject do?
+1. The first argument of the block takes the value of the variable passed to inject (the injected variable) initially
+2. After performing the block's operation the result is stored in that same variable and at the end that final stored value is returned
+3. If you don't pass in a value to inject, the first argument of the block will initially take on the value of the first index in the array. 
+
+Read some more here: http://ruby-doc.org/core-2.1.3/Enumerable.html#method-i-inject
+##It can be made even shorter
+
+```
+#This is equivalent to [1,1,1].inject(0) {|sum, value| sum+value} 
+[1,1,1].inject(0,:+) 
+OR
+[1,1,1].inject(:+) 
+```
+The first argument is the injection, the second is calling on the symbol for the operator +. Symbol references to methods are also acceptable arguments for inject.
+
+##Summary
+Instead of 
+```
+sum=0
+array.each do {|value| sum+=value}
+```
+
+You can do this:
+
+```
+array.inject(:+)
+```
+
+### #inject and #reduce are the same method. I imagine reduce refering the to the collapsing of the array via the given block into one value
