@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Git-Dash - Not A Programming Joke</title>
+  <meta name="author" content="Jimmy Kuruvilla">
+
+  
+  <meta name="description" content="At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://JimmyKuruvilla.github.io/blog/2014/11/22/git0-dash">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Not A Programming Joke" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Not A Programming Joke</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:JimmyKuruvilla.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Git-Dash</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-22T22:33:55-05:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>10:33 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the knowledge they have at the time. My partner and I decided to build a dashboard with the help of DashingIO (<a href="http://dashing.io/">http://dashing.io/</a>).</p>
+
+<p>We wanted to build a dashboard that could be accessed by the students individually and on the big screens around the lab area. Dashing IO provided both of these features out of the box.</p>
+
+<p>We wanted to show 1. what new blogs have been posted? 2. is there anything fun to do later? and 3. how am I doing on labs?</p>
+
+<p>The third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
+
+<p>Our Dashing IO jobs/scheduler code is at the vey bottom. And I&rsquo;ll say right now that we learned a lot and didn&rsquo;t really know what we were undertaking at the time.</p>
+
+<p>Instead of noting what worked, I&rsquo;d like to point out what we didn&rsquo;t do right:</p>
+
+<ol>
+<li><p>We didn&rsquo;t bother with object orientation since we had to run all our code in a scheduler cycle. In retrospect reusing any of this code would require a lot of familiartiy with the project. Object orientation could have allieveiated that burden had we employed it.</p></li>
+<li><p>The major feature of our app is that it shows users where the group is on &lsquo;labs&rsquo; or &lsquo;assignments&rsquo; on GitHub. Our app updates a graph with forks and pull requests indicating starts and finshes of labs.  Our app authenticates as a particular user of the organization that includes all of our assignments: &ldquo;flatiron-school-labs&rdquo;. And then it foolishly requests all pulls made to each repository, and then all forks made to each repository. Each of those is a separate request and slows the app as you would expect. We realized too late that making those requests concurrently would have sped things up significantly.</p></li>
+<li><p>We didn&rsquo;t cache data or ask the GitHub server if the data had changed? Checking if the current query&rsquo;s results are the same as the last set of results doesn&rsquo;t count against our API request limit, and would have been the right thing to do as decent &ldquo;api citizens.&rdquo;</p></li>
+<li><p>And of course instead of checking for pulls and forks every scheduler cycle, we could have just been notified by the GitHubAPI when something changed, via the GitHub Notifications API. Unfortunately we would need to authenticate as a user that was subscribed/watching each repository to be able to do this. As students only partially through the program, subscribing to every repo seemed silly.</p></li>
+<li><p>We relied too heavily on Dashing IO to handle graph widget creation. Dashing IO relies on D3, and futzing around with the coffeescript examples provided was a huge pain. If we were to do it again, we&rsquo;d go straight to D3&hellip;in fact we&rsquo;d skip Dashing IO and roll our own layout and javascript featureset.</p></li>
+</ol>
+
+
+<p>Here is a link to the video of us demoing the app.
+<a href="https://www.youtube.com/watch?v=RnR_riRvCWI">Git/IronDash-Demo</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ## require &#39;pry&#39;</span>
+</span><span class='line'><span class="c1">##concurrency</span>
+</span><span class='line'><span class="c1">##caching</span>
+</span><span class='line'><span class="c1">##check if changed, header 304</span>
+</span><span class='line'><span class="c1">##new widget to coorindate with IOS app</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;octokit&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;dotenv&#39;</span>
+</span><span class='line'><span class="no">Dotenv</span><span class="o">.</span><span class="n">load</span>
+</span><span class='line'><span class="c1"># # # Octokit.auto_paginate = true</span>
+</span><span class='line'>  <span class="n">client</span> <span class="o">=</span> <span class="no">Octokit</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span><span class="o">=&gt;</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;git_key&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">user</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">user</span>
+</span><span class='line'>  <span class="n">user</span><span class="o">.</span><span class="n">login</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">pulls_hash</span> <span class="o">||=</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">forks_hash</span> <span class="o">||=</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">old_pulls_hash</span><span class="o">=</span><span class="p">{}</span>
+</span><span class='line'>  <span class="n">old_forks_hash</span><span class="o">=</span><span class="p">{}</span>
+</span><span class='line'>  <span class="n">run_count</span><span class="o">=</span><span class="mi">0</span>
+</span><span class='line'>  <span class="n">graph_hash</span><span class="o">=</span><span class="p">{}</span>
+</span><span class='line'>  <span class="c1"># old_forks_data=[{x: 0, y:20}, {x:1, y: 60}]</span>
+</span><span class='line'>  <span class="c1"># old_pulls_data=[{x:0, y: (-20+16)}, {x:1, y: (-60+30)}]#-forks y+pulls y</span>
+</span><span class='line'>  <span class="n">old_forks_data</span><span class="o">=[</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">old_pulls_data</span><span class="o">=[</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">pulls_msg_data</span><span class="o">=[]</span>
+</span><span class='line'>  <span class="n">yf0</span><span class="p">,</span><span class="n">yf1</span><span class="p">,</span> <span class="n">tnum1</span><span class="p">,</span> <span class="n">tnum2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+</span><span class='line'>  <span class="n">yp0</span><span class="p">,</span> <span class="n">yp1</span><span class="o">=-</span><span class="mi">42</span><span class="p">,</span><span class="o">-</span><span class="mi">42</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">SCHEDULER</span><span class="o">.</span><span class="n">every</span> <span class="s1">&#39;3s&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">demo</span><span class="o">=</span><span class="kp">true</span>
+</span><span class='line'>  <span class="n">run_count</span><span class="o">+=</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="n">demo</span>
+</span><span class='line'>    <span class="n">graph_counter</span><span class="o">=</span><span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pulls_count</span><span class="o">=</span><span class="mi">0</span>
+</span><span class='line'>    <span class="n">forks_data</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="n">pulls_data</span><span class="o">=[]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">run_count</span><span class="o">&gt;</span><span class="mi">1</span><span class="c1">#create a baseline first, then start comparing. </span>
+</span><span class='line'>      <span class="n">old_pulls_hash</span><span class="o">=</span><span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;/home/j/dev/git-dash/pulls_hash&quot;</span><span class="p">))</span>
+</span><span class='line'>      <span class="n">old_forks_hash</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;/home/j/dev/git-dash/forks_hash&quot;</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pulls_changes_hash</span><span class="o">=</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span><span class="c1">#clears changes every loop</span>
+</span><span class='line'>    <span class="n">forks_changes_hash</span><span class="o">=</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">repositories</span><span class="o">=[</span><span class="n">client</span><span class="o">.</span><span class="n">repo</span><span class="p">(</span><span class="s2">&quot;flatiron-school-ironboard/rails-blog-sessions-ruby-006&quot;</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">repositories</span><span class="o">&lt;&lt;</span><span class="n">client</span><span class="o">.</span><span class="n">repo</span><span class="p">(</span><span class="s2">&quot;flatiron-school-ironboard/intro-to-js-and-jasmine-ruby-006&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># repositories ||=client.org_repos(&quot;flatiron-school-ironboard&quot;)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">repositories</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">repo</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">forks_hash</span><span class="o">[</span><span class="n">repo</span><span class="o">.</span><span class="n">full_name</span><span class="o">][</span><span class="ss">:forks_count</span><span class="o">]=</span><span class="n">repo</span><span class="o">[</span><span class="ss">:forks_count</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">forks_hash</span><span class="o">[</span><span class="n">repo</span><span class="o">.</span><span class="n">full_name</span><span class="o">][</span><span class="ss">:html_url</span><span class="o">]=</span><span class="n">repo</span><span class="o">[</span><span class="ss">:html_url</span><span class="o">]</span>
+</span><span class='line'>        <span class="c1"># {&quot;flatiron-school-ironboard/rails-blog-sessions-ruby-006&quot;=&gt;{:forks_count=&gt;23}}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">client</span><span class="o">.</span><span class="n">pulls</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">full_name</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pull</span><span class="o">|</span>
+</span><span class='line'>          <span class="n">pulls_hash</span><span class="o">[</span><span class="n">pull</span><span class="o">.</span><span class="n">html_url</span><span class="o">][</span><span class="ss">:name</span><span class="o">]=</span><span class="n">pull</span><span class="o">[</span><span class="ss">:user</span><span class="o">][</span><span class="ss">:login</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">pulls_hash</span><span class="o">[</span><span class="n">pull</span><span class="o">.</span><span class="n">html_url</span><span class="o">][</span><span class="ss">:created_at</span><span class="o">]=</span><span class="n">pull</span><span class="o">[</span><span class="ss">:created_at</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">pulls_hash</span><span class="o">[</span><span class="n">pull</span><span class="o">.</span><span class="n">html_url</span><span class="o">][</span><span class="ss">:title</span><span class="o">]=</span><span class="n">pull</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">pulls_hash</span><span class="o">[</span><span class="n">pull</span><span class="o">.</span><span class="n">html_url</span><span class="o">][</span><span class="ss">:html_url</span><span class="o">]=</span><span class="n">pull</span><span class="o">[</span><span class="ss">:html_url</span><span class="o">].</span><span class="n">match</span><span class="p">(</span><span class="sr">/(.*)\/pull/</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="c1">##to drop the /pull/18 bit</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="c1"># {&quot;https://github.com/flatiron-school-ironboard/rails-blog-sessions-ruby-006/pull/14&quot;=&gt;{:name=&gt;&quot;samvantran&quot;, :created_at=&gt;2014-11-08 20:14:28 UTC, :title=&gt;&quot;all systems go&quot;}</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">##compare and retrieve changes</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">run_count</span><span class="o">&gt;</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">pulls_hash</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">new_pull_request_url</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">!</span><span class="n">old_pulls_hash</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">new_pull_request_url</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">pulls_changes_hash</span><span class="o">[</span><span class="n">new_pull_request_url</span><span class="o">]=</span><span class="n">pulls_hash</span><span class="o">[</span><span class="n">new_pull_request_url</span><span class="o">]</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">old_forks_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">repo_full_name</span><span class="p">,</span> <span class="n">old_value_hash</span><span class="o">|</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">old_value_hash</span><span class="o">[</span><span class="ss">:forks_count</span><span class="o">]!=</span><span class="n">forks_hash</span><span class="o">[</span><span class="n">repo_full_name</span><span class="o">][</span><span class="ss">:forks_count</span><span class="o">]</span>
+</span><span class='line'>            <span class="n">forks_changes_hash</span><span class="o">[</span><span class="n">repo_full_name</span><span class="o">]=</span><span class="n">forks_hash</span><span class="o">[</span><span class="n">repo_full_name</span><span class="o">]</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># {&quot;flatiron-school-ironboard/rails-blog-sessions-ruby-006&quot;=&gt;{:forks_count=&gt;25}}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">#persist data betwen loops. Wierd errors with using variables, probaby due data referencing API instead of being stored locally. </span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/home/j/dev/git-dash/pulls_hash&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="no">YAML</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pulls_hash</span><span class="p">))</span> <span class="p">}</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/home/j/dev/git-dash/forks_hash&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="no">YAML</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">forks_hash</span><span class="p">))</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#check for changes, and add to graph data and graph lookup hash if present</span>
+</span><span class='line'>    <span class="n">forks_changes_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value_hash</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">graph_hash</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">forks_data</span><span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="n">graph_hash</span><span class="o">[</span><span class="n">key</span><span class="o">].</span><span class="n">to_i</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:forks_count</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span><span class="c1">#not forked yet</span>
+</span><span class='line'>        <span class="n">forks_data</span><span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="n">graph_counter</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:forks_count</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">graph_hash</span><span class="o">[</span><span class="n">key</span><span class="o">]=</span><span class="n">graph_counter</span>
+</span><span class='line'>        <span class="n">graph_counter</span><span class="o">+=</span><span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pulls_changes_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value_hash</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">formatted_key</span><span class="o">=</span><span class="n">key</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/https:\/\/github.com\/(.*)\/pull/</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">graph_key</span><span class="o">=</span><span class="n">key</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/https.*ironboard\/(.*)\/pull\//</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">pulls_count</span><span class="o">=</span><span class="n">key</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/.+\/(.+)/</span><span class="p">)</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">graph_hash</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">formatted_key</span><span class="p">)</span><span class="c1">#match the fork key from the pull key</span>
+</span><span class='line'>        <span class="n">pulls_data</span><span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="n">graph_hash</span><span class="o">[</span><span class="n">formatted_key</span><span class="o">].</span><span class="n">to_i</span> <span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">pulls_count</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">pulls_msg_data</span><span class="o">&lt;&lt;</span><span class="p">{</span><span class="ss">label</span><span class="p">:</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:name</span><span class="o">]+</span><span class="s2">&quot; finished: &quot;</span><span class="p">,</span> <span class="ss">value</span><span class="p">:</span> <span class="n">graph_key</span> <span class="o">+</span><span class="s2">&quot; and said: &quot;</span><span class="o">+</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span><span class="c1">#this should not happen normally, only for testing</span>
+</span><span class='line'>        <span class="n">pulls_data</span><span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="n">graph_counter</span> <span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">pulls_count</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">pulls_msg_data</span><span class="o">&lt;&lt;</span><span class="p">{</span><span class="ss">label</span><span class="p">:</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:name</span><span class="o">]+</span><span class="s2">&quot; finished: &quot;</span><span class="p">,</span> <span class="ss">value</span><span class="p">:</span> <span class="n">graph_key</span> <span class="o">+</span><span class="s2">&quot; and said: &quot;</span><span class="o">+</span> <span class="n">value_hash</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">graph_hash</span><span class="o">[</span><span class="n">formatted_key</span><span class="o">]=</span><span class="n">graph_counter</span>
+</span><span class='line'>        <span class="n">graph_counter</span><span class="o">+=</span><span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">else</span><span class="c1">#demo code</span>
+</span><span class='line'>    <span class="n">max</span><span class="o">=</span><span class="mi">42</span>
+</span><span class='line'>    <span class="n">tnum1</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>    <span class="n">tnum2</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">yf0</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">yf0</span><span class="o">&gt;=</span><span class="mi">42</span>
+</span><span class='line'>      <span class="n">yf0</span><span class="o">=</span><span class="mi">42</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">yf0</span><span class="o">==</span><span class="mi">42</span>
+</span><span class='line'>      <span class="n">yp0</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">yp0</span><span class="o">&gt;=</span><span class="mi">0</span>
+</span><span class='line'>        <span class="n">yp0</span><span class="o">=</span><span class="mi">0</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">yp0</span><span class="o">&gt;-</span><span class="mi">30</span>
+</span><span class='line'>      <span class="n">yf1</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">yf1</span><span class="o">&gt;=</span><span class="mi">42</span>
+</span><span class='line'>        <span class="n">yf1</span><span class="o">=</span><span class="mi">42</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">yf1</span><span class="o">==</span><span class="mi">42</span>
+</span><span class='line'>      <span class="n">yp1</span><span class="o">+=</span><span class="mi">5</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">yp1</span><span class="o">&gt;=</span><span class="mi">0</span>
+</span><span class='line'>        <span class="n">yp1</span><span class="o">=</span><span class="mi">0</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">forks_data</span><span class="o">=[</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">yf0</span><span class="p">},</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">yf1</span><span class="p">}</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">pulls_data</span><span class="o">=[</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">yp0</span><span class="p">},</span> <span class="p">{</span><span class="ss">x</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="n">yp1</span><span class="p">}</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">names</span><span class="o">=[</span><span class="s2">&quot;fkenji&quot;</span><span class="p">,</span> <span class="s2">&quot;thinhthinh&quot;</span><span class="p">,</span> <span class="s2">&quot;molgin&quot;</span><span class="p">,</span> <span class="s2">&quot;strohy1210&quot;</span><span class="p">,</span> <span class="s2">&quot;amshane&quot;</span><span class="p">,</span> <span class="s2">&quot;jmoses89&quot;</span><span class="p">,</span> <span class="s2">&quot;karimbutt&quot;</span><span class="p">,</span> <span class="s2">&quot;daniellecs&quot;</span><span class="p">,</span> <span class="s2">&quot;Sailorflares&quot;</span><span class="p">,</span> <span class="s2">&quot;samvantran&quot;</span><span class="p">,</span> <span class="s2">&quot;changamanda&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">repos</span><span class="o">=[</span><span class="s2">&quot;rails-blog-sessions-ruby-006&quot;</span><span class="p">,</span><span class="s2">&quot;intro-to-js-and-jasmine-ruby-006&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">said</span><span class="o">=[</span><span class="s2">&quot;dominated&quot;</span><span class="p">,</span> <span class="s2">&quot;rails rails rails&quot;</span><span class="p">,</span> <span class="s2">&quot;finally done!&quot;</span><span class="p">,</span> <span class="s2">&quot;DONE&quot;</span><span class="p">,</span> <span class="s2">&quot;completed testing&quot;</span><span class="p">,</span> <span class="s2">&quot;made tests pass&quot;</span><span class="p">,</span> <span class="s2">&quot;st paddy&#39;s day parade&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">run_count</span><span class="o">%</span><span class="mi">4</span><span class="o">==</span><span class="mi">0</span>
+</span><span class='line'>      <span class="n">pulls_msg_data</span><span class="o">&lt;&lt;</span><span class="p">{</span><span class="ss">label</span><span class="p">:</span> <span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">sample</span> <span class="o">+</span> <span class="s2">&quot; finished: &quot;</span><span class="p">),</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">repos</span><span class="o">.</span><span class="n">sample</span> <span class="o">+</span> <span class="s2">&quot; and said: &quot;</span><span class="o">+</span> <span class="n">said</span><span class="o">.</span><span class="n">sample</span><span class="p">)}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span><span class="c1">#end if block for demos</span>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">#sort forks and pulls by x ORDER to avoid halts</span>
+</span><span class='line'>    <span class="n">forks_data</span><span class="o">=</span><span class="n">forks_data</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">h</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">pulls_data</span><span class="o">=</span><span class="n">pulls_data</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">h</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#checks to see if pulls/forks has changed, correctly associates it in the graph data, and adjusts the bar chart from stacking to overlapping</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">forks_data!</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="n">forks_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">old_forks_data</span><span class="o">[</span><span class="n">item</span><span class="o">[</span><span class="ss">:x</span><span class="o">]]=</span><span class="n">item</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">pulls_data!</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="n">pulls_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">old_pulls_data</span><span class="o">[</span><span class="n">item</span><span class="o">[</span><span class="ss">:x</span><span class="o">]]=</span><span class="p">{</span><span class="ss">:x</span><span class="o">=&gt;</span><span class="n">item</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span><span class="p">,</span> <span class="ss">:y</span><span class="o">=&gt;</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">old_forks_data</span><span class="o">[</span><span class="n">item</span><span class="o">[</span><span class="ss">:x</span><span class="o">]][</span><span class="ss">:y</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="n">item</span><span class="o">[</span><span class="ss">:y</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;pullrequests&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">items</span><span class="p">:</span> <span class="n">pulls_msg_data</span> <span class="p">})</span>
+</span><span class='line'>  <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">items</span><span class="p">:</span> <span class="n">pulls_msg_data</span> <span class="p">})</span>
+</span><span class='line'><span class="c1"># always display old data if there is no new data</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">forks_data</span><span class="o">==[]</span> <span class="o">&amp;&amp;</span> <span class="n">pulls_data</span><span class="o">==[]</span>
+</span><span class='line'>    <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;labs&#39;</span><span class="p">,</span> <span class="ss">forks</span><span class="p">:</span> <span class="n">old_forks_data</span><span class="p">,</span> <span class="ss">pulls</span><span class="p">:</span> <span class="n">old_pulls_data</span><span class="p">)</span>
+</span><span class='line'>     <span class="c1"># p &quot;C1 forks_data #{forks_data}&quot;</span>
+</span><span class='line'>     <span class="c1"># p &quot;C1 old-forks_data #{old_forks_data}&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">forks_data</span><span class="o">==[]</span>
+</span><span class='line'>    <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;labs&#39;</span><span class="p">,</span> <span class="ss">forks</span><span class="p">:</span> <span class="n">old_forks_data</span><span class="p">,</span> <span class="ss">pulls</span><span class="p">:</span> <span class="n">pulls_data</span><span class="p">)</span>
+</span><span class='line'>     <span class="c1"># p &quot;C2 forks_data #{forks_data}&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">pulls_data</span><span class="o">==[]</span>
+</span><span class='line'>    <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;labs&#39;</span><span class="p">,</span> <span class="ss">forks</span><span class="p">:</span> <span class="n">forks_data</span><span class="p">,</span> <span class="ss">pulls</span><span class="p">:</span> <span class="n">old_pulls_data</span><span class="p">)</span>
+</span><span class='line'>     <span class="c1"># p &quot;C3 forks_data #{forks_data}&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">send_event</span><span class="p">(</span><span class="s1">&#39;labs&#39;</span><span class="p">,</span> <span class="ss">forks</span><span class="p">:</span> <span class="n">forks_data</span><span class="p">,</span> <span class="ss">pulls</span><span class="p">:</span> <span class="n">pulls_data</span><span class="p">)</span>
+</span><span class='line'>     <span class="c1"># p &quot;C4 forks_data #{forks_data}&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;forks_data </span><span class="si">#{</span><span class="n">forks_data</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;forks_changes </span><span class="si">#{</span><span class="n">forks_changes_hash</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;pulls_data </span><span class="si">#{</span><span class="n">pulls_data</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;pulls_changes </span><span class="si">#{</span><span class="n">pulls_changes_hash</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;pulls_msg_data </span><span class="si">#{</span><span class="n">pulls_msg_data</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;old_forks_data </span><span class="si">#{</span><span class="n">old_forks_data</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;old_pulls_data </span><span class="si">#{</span><span class="n">old_pulls_data</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;graph_hash </span><span class="si">#{</span><span class="n">graph_hash</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="c1">##caching</span>
+</span><span class='line'><span class="c1">##check if changed, he</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="s2">&quot;run_count </span><span class="si">#{</span><span class="n">run_count</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="n">client</span><span class="o">.</span><span class="n">rate_limit</span><span class="o">.</span><span class="n">remaining</span>
+</span><span class='line'><span class="k">end</span><span class="c1">#scheduler end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jimmy Kuruvilla</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-22T22:33:55-05:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>10:33 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://JimmyKuruvilla.github.io/blog/2014/11/22/git0-dash/" data-via="" data-counturl="http://JimmyKuruvilla.github.io/blog/2014/11/22/git0-dash/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/10/dishes/" title="Previous Post: Dishes">&laquo; Dishes</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/22/git0-dash/">Git-Dash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/10/dishes/">Dishes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/31/opencv-finding-faces/">OpenCV: Finding Faces</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns/">What Happens When You Grow a Database Sideways?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/08/testing/">Ruby: Inject/Reduce Method</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Jimmy Kuruvilla -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
