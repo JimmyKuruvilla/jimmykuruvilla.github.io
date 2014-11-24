@@ -9,7 +9,7 @@
   <meta name="author" content="Jimmy Kuruvilla">
 
   
-  <meta name="description" content="At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the &hellip;">
+  <meta name="description" content="At the Flatiron School (FI) we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,20 +86,23 @@
   </header>
 
 
-  <div class="entry-content"><p>At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the knowledge they have at the time. My partner and I decided to build a dashboard with the help of DashingIO (<a href="http://dashing.io/">http://dashing.io/</a>).</p>
+  <div class="entry-content"><p>At the Flatiron School (FI) we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the knowledge they have at the time. My partner and I decided to build a dashboard with the help of DashingIO (<a href="http://dashing.io/">http://dashing.io/</a>).</p>
 
 <p>We wanted to build a dashboard that could be accessed by the students individually and on the big screens around the lab area. Dashing IO provided both of these features out of the box.</p>
 
-<p>We wanted to show 1. what new blogs have been posted? 2. is there anything fun to do later? and 3. how am I doing on labs?</p>
+<p>We wanted to show
+1. what new blogs have been posted?
+2. is there anything fun to do later? and
+3. how am I doing on labs?</p>
 
-<p>The third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
+<p>The first was accomplished in name, the second was ignored completely, and the third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
 
 <p>Our Dashing IO jobs/scheduler code is at the vey bottom. And I&rsquo;ll say right now that we learned a lot and didn&rsquo;t really know what we were undertaking at the time.</p>
 
-<p>Instead of noting what worked, I&rsquo;d like to point out what we didn&rsquo;t do right:</p>
+<p>Instead of noting what worked, I&rsquo;d like to point out what we didn&rsquo;t do right since that&rsquo;s where most of the really good lessons came from:</p>
 
 <ol>
-<li><p>We didn&rsquo;t bother with object orientation since we had to run all our code in a scheduler cycle. In retrospect reusing any of this code would require a lot of familiartiy with the project. Object orientation could have allieveiated that burden had we employed it.</p></li>
+<li><p>We didn&rsquo;t start with object orientation and we kept pushing forward with procedural code. Reusing any of this code would require a lot of familiartiy with the project, and it&rsquo;s quite ugly to read. A little OO would have gone a lOOng way.</p></li>
 <li><p>The major feature of our app is that it shows users where the group is on &lsquo;labs&rsquo; or &lsquo;assignments&rsquo; on GitHub. Our app updates a graph with forks and pull requests indicating starts and finshes of labs.  Our app authenticates as a particular user of the organization that includes all of our assignments: &ldquo;flatiron-school-labs&rdquo;. And then it foolishly requests all pulls made to each repository, and then all forks made to each repository. Each of those is a separate request and slows the app as you would expect. We realized too late that making those requests concurrently would have sped things up significantly.</p></li>
 <li><p>We didn&rsquo;t cache data or ask the GitHub server if the data had changed? Checking if the current query&rsquo;s results are the same as the last set of results doesn&rsquo;t count against our API request limit, and would have been the right thing to do as decent &ldquo;api citizens.&rdquo;</p></li>
 <li><p>And of course instead of checking for pulls and forks every scheduler cycle, we could have just been notified by the GitHubAPI when something changed, via the GitHub Notifications API. Unfortunately we would need to authenticate as a user that was subscribed/watching each repository to be able to do this. As students only partially through the program, subscribing to every repo seemed silly.</p></li>
@@ -552,7 +555,7 @@
 
 <p>A few apartments ago my wife and I had our first son, Eli. Very quickly I got tired of washing a thousand baby bottles by hand every day and so I looked for and found a dishwasher on Craigslist. I had a very narrow kitchen without the possibility of installing a dishwasher so I needed a mobile one. In fact, the person I bought it from thought their dishwasher was broken, so they were giving it away. It had recently been serviced and the main motor had been replaced. The owners were frustrated that it still didn&rsquo;t work and were unwilling to spend any more money on it. I was more willing to gamble my time back then, so I went ahead and got a free dishwasher.</p>
 
-<h2>Mistake number 1: I turned it on and tried to run a cycle and the bottom started leaking water and the cycle never started. I dripped water all over the kitchen floor and had to explain why I was even bothering with a known failure of a dishwasher.</h2>
+<h2>Mistake number 1: I turned it on and tried to run a cycle and the bottom started leaking water and the cycle never started. I dripped water all over the kitchen floor and had to explain why I was even bothering with a &ldquo;broken&rdquo; dishwasher.</h2>
 
 <p>I opened up the dishwasher and  learned a bunch of things but two were notable:</p>
 
@@ -564,52 +567,17 @@
 
 <p>I ordered a new sink connection hose attachment and a new motor power connector and in a few days I had a working dishwasher! Great success!</p>
 
-<h2>Lesson: Don&rsquo;t start a broken dishwasher without a pan/towel to catch the potential leaking water. And don&rsquo;t give up because other people claim it&rsquo;s unfixable!</h2>
+<h2>Lesson: Don&rsquo;t start a broken dishwasher without a pan/towel to catch the potential leaking water. And more importantly don&rsquo;t give up because other people claim something is broken.   Sometimes it&rsquo;s good to see for yourself.</h2>
 
-<h2>Mistake number 2: Building something that already exists</h2>
+<h2>Mistake number 2: Building something that already exists&hellip;and not just for practice</h2>
 
 <p>This new (old) dishwasher only had one caster remaining, so it wasn&rsquo;t nearly as mobile as I needed. I figured I&rsquo;ll just put it on a dolly and wheel it around. But where to get a dolly this size? It has to be strong, and just the right size, otherwise&hellip;broken dishes could occur! So I decided to build one. I measured the base, laid out a plan on paper, went to Home Depot, bought the wood, casters and screws, and then put it together in a short afternoon. I was so incredibly proud of my custom dolly I told my wife to give me extra husband points for not only finding the free dishwasher and making it work, but for also building a custom dolly.</p>
 
 <p>My friend Tim pointed out that I could have just bought one at Home Depot, and that they came in different sizes. I told him that he was a wise man, and that I would heed his advice in future. I also cursed his first-born. I&rsquo;ve included a picture of my mega-dolly below.</p>
 
-<h2>Lesson: Always google/discuss your ideas before you get started. Someone may have already solved your problem for you.</h2>
+<h2>Lesson: Always google/discuss your ideas before you get started. Someone may have already solved your problem for you.  Everything you create will always be built on the hard work of those who came before you (tools, designs, best-practices etc.) so don&rsquo;t re-invent the wheel.</h2>
 
 <p>When I moved to a new place with a dishwasher, I ended up paying mine forward to a friend who was in the same bottle-hell that I was. I still have the dolly and I don&rsquo;t use it for anything at all.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/31/opencv-finding-faces/">OpenCV: Finding Faces</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-31T09:17:06-04:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>9:17 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>OpenCV is a library written in C by SO AND SO, that allows you to detect pretty much anything, provided you can train it on the objects. Object detection used to be very computationally expensive until THESE PEOPLE decided to do it on LUMINOSIITIES</p>
-
-<h2>So the 2 biggest challenges with using OPEN CV are 1. installing it. (gem?) 2. reading the documention which is written in C.</h2>
-
-<p>So here is what happens</p>
-
-<p><img class="left" src="/images/SQLITE_chart.png" width="500" height="400" title="image" alt="images"></p>
 </div>
   
   
@@ -961,10 +929,6 @@
     
       <li class="post">
         <a href="/blog/2014/11/10/dishes/">Dishes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/31/opencv-finding-faces/">OpenCV: Finding Faces</a>
       </li>
     
       <li class="post">

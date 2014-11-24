@@ -19,14 +19,6 @@
   </url>
   
   <url>
-    <loc>http://JimmyKuruvilla.github.io/blog/2014/10/31/opencv-finding-faces/</loc>
-    
-    <lastmod>2014-10-31T09:17:06-04:00</lastmod>
-    
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
     <loc>http://JimmyKuruvilla.github.io/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns/</loc>
     
     <lastmod>2014-10-30T17:32:09-04:00</lastmod>
@@ -45,21 +37,21 @@
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/blog/archives/</loc>
-    <lastmod>2014-11-23T22:51:42-05:00</lastmod>
+    <lastmod>2014-11-23T23:10:31-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/</loc>
-    <lastmod>2014-11-23T22:51:42-05:00</lastmod>
+    <lastmod>2014-11-23T23:10:31-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/search.html</loc>
-    <lastmod>2014-11-23T22:51:42-05:00</lastmod>
+    <lastmod>2014-11-23T23:10:31-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

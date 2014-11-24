@@ -9,7 +9,7 @@
   <meta name="author" content="Jimmy Kuruvilla">
 
   
-  <meta name="description" content="At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the &hellip;">
+  <meta name="description" content="At the Flatiron School (FI) we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,20 +83,23 @@
   </header>
 
 
-<div class="entry-content"><p>At the Flatiron School we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the knowledge they have at the time. My partner and I decided to build a dashboard with the help of DashingIO (<a href="http://dashing.io/">http://dashing.io/</a>).</p>
+<div class="entry-content"><p>At the Flatiron School (FI) we&rsquo;re required to present at least one technical talk. Not to be outdone by classmates most people go all out with the knowledge they have at the time. My partner and I decided to build a dashboard with the help of DashingIO (<a href="http://dashing.io/">http://dashing.io/</a>).</p>
 
 <p>We wanted to build a dashboard that could be accessed by the students individually and on the big screens around the lab area. Dashing IO provided both of these features out of the box.</p>
 
-<p>We wanted to show 1. what new blogs have been posted? 2. is there anything fun to do later? and 3. how am I doing on labs?</p>
+<p>We wanted to show
+1. what new blogs have been posted?
+2. is there anything fun to do later? and
+3. how am I doing on labs?</p>
 
-<p>The third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
+<p>The first was accomplished in name, the second was ignored completely, and the third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
 
 <p>Our Dashing IO jobs/scheduler code is at the vey bottom. And I&rsquo;ll say right now that we learned a lot and didn&rsquo;t really know what we were undertaking at the time.</p>
 
-<p>Instead of noting what worked, I&rsquo;d like to point out what we didn&rsquo;t do right:</p>
+<p>Instead of noting what worked, I&rsquo;d like to point out what we didn&rsquo;t do right since that&rsquo;s where most of the really good lessons came from:</p>
 
 <ol>
-<li><p>We didn&rsquo;t bother with object orientation since we had to run all our code in a scheduler cycle. In retrospect reusing any of this code would require a lot of familiartiy with the project. Object orientation could have allieveiated that burden had we employed it.</p></li>
+<li><p>We didn&rsquo;t start with object orientation and we kept pushing forward with procedural code. Reusing any of this code would require a lot of familiartiy with the project, and it&rsquo;s quite ugly to read. A little OO would have gone a lOOng way.</p></li>
 <li><p>The major feature of our app is that it shows users where the group is on &lsquo;labs&rsquo; or &lsquo;assignments&rsquo; on GitHub. Our app updates a graph with forks and pull requests indicating starts and finshes of labs.  Our app authenticates as a particular user of the organization that includes all of our assignments: &ldquo;flatiron-school-labs&rdquo;. And then it foolishly requests all pulls made to each repository, and then all forks made to each repository. Each of those is a separate request and slows the app as you would expect. We realized too late that making those requests concurrently would have sped things up significantly.</p></li>
 <li><p>We didn&rsquo;t cache data or ask the GitHub server if the data had changed? Checking if the current query&rsquo;s results are the same as the last set of results doesn&rsquo;t count against our API request limit, and would have been the right thing to do as decent &ldquo;api citizens.&rdquo;</p></li>
 <li><p>And of course instead of checking for pulls and forks every scheduler cycle, we could have just been notified by the GitHubAPI when something changed, via the GitHub Notifications API. Unfortunately we would need to authenticate as a user that was subscribed/watching each repository to be able to do this. As students only partially through the program, subscribing to every repo seemed silly.</p></li>
@@ -570,10 +573,6 @@
     
       <li class="post">
         <a href="/blog/2014/11/10/dishes/">Dishes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/31/opencv-finding-faces/">OpenCV: Finding Faces</a>
       </li>
     
       <li class="post">
