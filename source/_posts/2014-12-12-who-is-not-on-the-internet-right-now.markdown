@@ -13,7 +13,7 @@ Did earlier life preferences shape this 65+ group's later life choices? Generall
 
 So should anyone care? 
 
-<!-- more -->
+
 
 Yes! Because people being on the internet usually is making someone money. ISPs, ad providers, consumer product sales, paid services, on line commerce of street-stores etc. all have a chance at making money when more and more people use the internet.  
 
