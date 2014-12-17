@@ -4,7 +4,7 @@
   <title><![CDATA[Not A Programming Joke]]></title>
   <link href="http://JimmyKuruvilla.github.io/atom.xml" rel="self"/>
   <link href="http://JimmyKuruvilla.github.io/"/>
-  <updated>2014-12-17T12:10:54-05:00</updated>
+  <updated>2014-12-17T12:14:05-05:00</updated>
   <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
@@ -18,15 +18,16 @@
     <link href="http://JimmyKuruvilla.github.io/blog/2014/12/01/vmachine/"/>
     <updated>2014-12-01T20:45:41-05:00</updated>
     <id>http://JimmyKuruvilla.github.io/blog/2014/12/01/vmachine</id>
-    <content type="html"><![CDATA[<h3>Why should you develop in a Virtual Machine?</h3>
-
-<p>When I first started at the Flatiron School I got more than a few stares for using a PC. In fact for a place that otherwise espoused tolerance and a positive attitude, the feelings toward PCs were definitely more downward facing dog than rising eagle. To me this was a shock, the arguments against MACs were obvious - overly expensive, upgrades require a &ldquo;genius&rdquo;, used to not even run on x86 processors, have to pay for every single thing that is available as open source, and you can&rsquo;t play (as many/recent) games!</p>
+    <content type="html"><![CDATA[<p>When I first started at the Flatiron School I got more than a few stares for using a PC. In fact for a place that otherwise espoused tolerance and a positive attitude, the feelings toward PCs were definitely more downward facing dog than rising eagle. To me this was a shock, the arguments against MACs were obvious - overly expensive, upgrades require a &ldquo;genius&rdquo;, used to not even run on x86 processors, have to pay for every single thing that is available as open source, and you can&rsquo;t play (as many/recent) games!</p>
 
 <p>After watching 40 students handle their Macs as development machines I will admit that there is a sexiness to newer Macbooks, and you definitely get what you pay for in terms of screen resolution, and who can argue that having the OS just work isn&rsquo;t something that you would want? For simplicity, The Flatiron School insists that you use a Mac. I used a linux  and Win 8 dual boot machine for most of my time there because they hadn&rsquo;t outright said I couldn&rsquo;t, and becuase I already owned one.</p>
 
 <h3>How did it go?</h3>
 
 <p>It was a major victory for proving it can be done. It was a minor hassle in terms of having to jump through a few more hoops on a curriculum designed for Macs. Some custom Flatiron gems needed tweaks to work, or Postgres had additional dependencies, or shortcuts in Sublime aren&rsquo;t the same. All in all it wasn&rsquo;t game breaking stuff, and I still prefer that I used a laptop I had ($500) over buying a new one ($2000) in an eco-system I had no intention of participating in. As we neared the end of the term I realized however that I was missing out on a third option : virtualization.</p>
+
+<!-- more -->
+
 
 <h3>Why Virtualize?</h3>
 
@@ -72,6 +73,9 @@
 2. is there anything fun to do later? and
 3. how am I doing on labs?</p>
 
+<!-- more -->
+
+
 <p>The first was accomplished in name, the second was ignored completely, and the third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don&rsquo;t want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it.</p>
 
 <p>I&rsquo;ll say right now that we learned a lot and didn&rsquo;t really know what we were undertaking at the time.</p>
@@ -100,6 +104,9 @@
     <content type="html"><![CDATA[<p>The following isn&rsquo;t strictly programming related, but I learned some things that I make sure to remember while programming so I thought I would share it.</p>
 
 <p>A few apartments ago my wife and I had our first son, Eli. Very quickly I got tired of washing a thousand baby bottles by hand every day and so I looked for and found a dishwasher on Craigslist. I had a very narrow kitchen without the possibility of installing a dishwasher so I needed a mobile one. In fact, the person I bought it from thought their dishwasher was broken, so they were giving it away. It had recently been serviced and the main motor had been replaced. The owners were frustrated that it still didn&rsquo;t work and were unwilling to spend any more money on it. I was more willing to gamble my time back then, so I went ahead and got a free dishwasher.</p>
+
+<!-- more -->
+
 
 <h2>Mistake number 1: I turned it on and tried to run a cycle and the bottom started leaking water and the cycle never started. I dripped water all over the kitchen floor and had to explain why I was even bothering with a &ldquo;broken&rdquo; dishwasher.</h2>
 
@@ -135,6 +142,9 @@
     <updated>2014-10-30T17:32:09-04:00</updated>
     <id>http://JimmyKuruvilla.github.io/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns</id>
     <content type="html"><![CDATA[<p>The short answer is that it gets slow. I had heard this before but decided to confirm it with some code. I used SQLite for the database, ActiveRecord to ease the SQL work, and Ruby to automate table generation. Tables of sizes from 100 to 1000 columns and rows were created and populated, and then randomly queried 100 times per benchmark. The benchmarks were averaged and compiled to generate the summary chart.  To keep things simple, I only tested a single column of 1000 records, or a single row with 1000 attributes (columns).</p>
+
+<!-- more -->
+
 
 <p>The code for the helper methods:</p>
 
