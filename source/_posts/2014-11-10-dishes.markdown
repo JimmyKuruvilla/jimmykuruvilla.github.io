@@ -10,6 +10,7 @@ The following isn't strictly programming related, but I learned some things that
 
 A few apartments ago my wife and I had our first son, Eli. Very quickly I got tired of washing a thousand baby bottles by hand every day and so I looked for and found a dishwasher on Craigslist. I had a very narrow kitchen without the possibility of installing a dishwasher so I needed a mobile one. In fact, the person I bought it from thought their dishwasher was broken, so they were giving it away. It had recently been serviced and the main motor had been replaced. The owners were frustrated that it still didn't work and were unwilling to spend any more money on it. I was more willing to gamble my time back then, so I went ahead and got a free dishwasher. 
 
+<!-- more -->
 ##Mistake number 1: I turned it on and tried to run a cycle and the bottom started leaking water and the cycle never started. I dripped water all over the kitchen floor and had to explain why I was even bothering with a "broken" dishwasher.  
 
 I opened up the dishwasher and  learned a bunch of things but two were notable:

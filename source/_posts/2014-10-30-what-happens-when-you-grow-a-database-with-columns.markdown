@@ -8,6 +8,7 @@ categories:
 
 The short answer is that it gets slow. I had heard this before but decided to confirm it with some code. I used SQLite for the database, ActiveRecord to ease the SQL work, and Ruby to automate table generation. Tables of sizes from 100 to 1000 columns and rows were created and populated, and then randomly queried 100 times per benchmark. The benchmarks were averaged and compiled to generate the summary chart.  To keep things simple, I only tested a single column of 1000 records, or a single row with 1000 attributes (columns). 
 
+<!-- more -->
 The code for the helper methods:
 
 ```ruby

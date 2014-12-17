@@ -15,6 +15,7 @@ We wanted to show
 2. is there anything fun to do later? and 
 3. how am I doing on labs?
 
+<!-- more -->
 The first was accomplished in name, the second was ignored completely, and the third question took most of our limited time. Labs are assignments given by the FI instructors. Each lab is a source of its own anxiety for each student. The one thing students don't want to be is behind other students on labs. So we thought our dashoard would help them realize they were travelling with the pack instead of trailing it. 
 
 I'll say right now that we learned a lot and didn't really know what we were undertaking at the time. 

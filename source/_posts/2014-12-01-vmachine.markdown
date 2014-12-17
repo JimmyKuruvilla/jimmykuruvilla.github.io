@@ -6,8 +6,6 @@ comments: true
 categories: 
 ---
 
-###Why should you develop in a Virtual Machine?
-
 When I first started at the Flatiron School I got more than a few stares for using a PC. In fact for a place that otherwise espoused tolerance and a positive attitude, the feelings toward PCs were definitely more downward facing dog than rising eagle. To me this was a shock, the arguments against MACs were obvious - overly expensive, upgrades require a "genius", used to not even run on x86 processors, have to pay for every single thing that is available as open source, and you can't play (as many/recent) games!
 
 After watching 40 students handle their Macs as development machines I will admit that there is a sexiness to newer Macbooks, and you definitely get what you pay for in terms of screen resolution, and who can argue that having the OS just work isn't something that you would want? For simplicity, The Flatiron School insists that you use a Mac. I used a linux  and Win 8 dual boot machine for most of my time there because they hadn't outright said I couldn't, and becuase I already owned one. 
@@ -15,7 +13,7 @@ After watching 40 students handle their Macs as development machines I will admi
 ###How did it go?
 
 It was a major victory for proving it can be done. It was a minor hassle in terms of having to jump through a few more hoops on a curriculum designed for Macs. Some custom Flatiron gems needed tweaks to work, or Postgres had additional dependencies, or shortcuts in Sublime aren't the same. All in all it wasn't game breaking stuff, and I still prefer that I used a laptop I had ($500) over buying a new one ($2000) in an eco-system I had no intention of participating in. As we neared the end of the term I realized however that I was missing out on a third option : virtualization.
-
+<!-- more -->
 ###Why Virtualize?
 
 Running an OS and development environment in a virtual machine has mostly ups, but also a few downs.
