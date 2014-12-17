@@ -1,0 +1,47 @@
+---
+layout: post
+title: "VMachine"
+date: 2014-12-01 20:45:41 -0500
+comments: true
+categories: 
+---
+
+###Why should you develop in a Virtual Machine?
+
+When I first started at the Flatiron School I got more than a few stares for using a PC. In fact for a place that otherwise espoused tolerance and a positive attitude, the feelings toward PCs were definitely more downward facing dog than rising eagle. To me this was a shock, the arguments against MACs were obvious - overly expensive, upgrades require a "genius", used to not even run on x86 processors, have to pay for every single thing that is available as open source, and you can't play (as many/recent) games!
+
+After watching 40 students handle their Macs as development machines I will admit that there is a sexiness to newer Macbooks, and you definitely get what you pay for in terms of screen resolution, and who can argue that having the OS just work isn't something that you would want? For simplicity, The Flatiron School insists that you use a Mac. I used a linux  and Win 8 dual boot machine for most of my time there because they hadn't outright said I couldn't, and becuase I already owned one. 
+
+###How did it go?
+
+It was a major victory for proving it can be done. It was a minor hassle in terms of having to jump through a few more hoops on a curriculum designed for Macs. Some custom Flatiron gems needed tweaks to work, or Postgres had additional dependencies, or shortcuts in Sublime aren't the same. All in all it wasn't game breaking stuff, and I still prefer that I used a laptop I had ($500) over buying a new one ($2000) in an eco-system I had no intention of participating in. As we neared the end of the term I realized however that I was missing out on a third option : virtualization.
+
+###Why Virtualize?
+
+Running an OS and development environment in a virtual machine has mostly ups, but also a few downs.
+
+####The Ups:
+
+1. All your IDE/text editor settings, custom bash shortcuts, gems, ruby installations managed with RVM, file structure, apps you've built, custom scripts etc. etc. are saved in the VM. My Kubuntu 14.04 (LTS) install + tools is about 23 GB. This includes everything I need to build Rails apps - sublime text, chrome, GIMP etc. Today that is TINY. I save mine to a external drive every few days. That means even if I lost my entire machine, I could set up for work on a new machine in literally the time it takes to copy over - about 10 min. In fact, when I can't use my laptop because I forgot it at school, I've booted up the VM on my home machine and seamlessly resumed work. 
+
+3. No messing around with Wine or other nonsense to get Windows only tools to work. Just jump to Windows, do your Autocad or whatever and come right back. 
+
+4. You don't have to dual boot. If you need Windows (I know I know, no one needs Windows), but say you needed Windows (to play Starcraft, Skyrim, or some LoL let's say), by using a VM you can just drop out and be in Windows. No rebooting at all. And obviously if you wanted to run a VM session of OS X inside OS X to isolate your dev environment, I'm pretty sure that wouldn't be too hard to do either.
+
+####The Downs:
+
+1. The clock took a while to sync correctly with the host system. Sometimes it's still off, but can be corrected manually. Strangely enough on Github, times for commits etc. are based on local machine time, so this can be off putting.  
+
+2. Keyboard repeat settings may need tweaking. Every so often I find myself with a few keystrokes I didn't type, and it occurs more often in lower power (lower CPU) states.
+
+3. Sharing files between the host and the guest machines can be a little fiddly. If you have a lot of data to transfer back and forth a specialized shared partition may make sense. I have a 30GB FAT32 partition shared between Windows (NTFS) and Ubuntu (EXT3). When mounted with CIFS the FAT32 permissions issue where everything shows up as executable are resolved, but you do still have the 4GB file size limit - I'm not editing video so that hasn't been a problem. For smaller amounts of data or if you just can't be bothered, Github or Dropbox might be a more sensible solution. 
+
+4. Getting 3D acceleration for Compiz effects and the like were a little more than fiddly but doable. You can live without it, but it does detract from the experience to have this be choppy, so it's worth doing right. 
+
+5. Virtualization costs RAM and CPU cores. I have a quad core machine with 6GB of RAM and an AMD APU. The development enviroment gets 2 cores and 2 GB of RAM and hasn't stuttered yet. On a single core and 1GB of RAM, this still work satisfactorily, though I feel like I can tell the difference. 
+
+
+So do it! It's worth a little hassle to never be left in the dark, and to always have all your options open. 
+
+In the end I went with VMWare over Virtual Box - only because 3D acceleration was not working right on Virtual Box.  I also initially tried using a VMWare converter to take the original Linux install and convert it to a VM. This worked well, but again I could not figure out the 3D acceleration thing  so I went with a fresh install. 
+

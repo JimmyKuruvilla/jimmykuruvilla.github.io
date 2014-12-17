@@ -1,0 +1,35 @@
+---
+layout: post
+title: "Dishes"
+date: 2014-11-10 21:58:45 -0500
+comments: true
+categories: 
+---
+
+The following isn't strictly programming related, but I learned some things that I make sure to remember while programming so I thought I would share it. 
+
+A few apartments ago my wife and I had our first son, Eli. Very quickly I got tired of washing a thousand baby bottles by hand every day and so I looked for and found a dishwasher on Craigslist. I had a very narrow kitchen without the possibility of installing a dishwasher so I needed a mobile one. In fact, the person I bought it from thought their dishwasher was broken, so they were giving it away. It had recently been serviced and the main motor had been replaced. The owners were frustrated that it still didn't work and were unwilling to spend any more money on it. I was more willing to gamble my time back then, so I went ahead and got a free dishwasher. 
+
+##Mistake number 1: I turned it on and tried to run a cycle and the bottom started leaking water and the cycle never started. I dripped water all over the kitchen floor and had to explain why I was even bothering with a "broken" dishwasher.  
+
+I opened up the dishwasher and  learned a bunch of things but two were notable:
+
+1. What prevents a mobile dishwasher from tipping when the trays are full of plates and you pull them all the way out? Apparently it's a giant T-shaped counter-weight made of concrete, wrapped in bubble wrap for...cushioning I guess. If I had known that  most of the weight came from a single, dense piece of concrete, I would have dissasembled the whole thing before I dragged it up to my 2nd floor walk up apartment. 
+
+2. Nothing was wrong with the dishwasher except that the electrical connection to the motor and the control system was not securely attached. The technician that serviced it must have thought everything was working when he left, and then the connection must have come loose - during all the mobile activities a dishwasher like this one experiences. You know how it is.
+
+I ordered a new sink connection hose attachment and a new motor power connector and in a few days I had a working dishwasher! Great success!
+
+##Lesson: Don't start a broken dishwasher without a pan/towel to catch the potential leaking water. And more importantly don't give up because other people claim something is broken.   Sometimes it's good to see for yourself.
+
+##Mistake number 2: Building something that already exists...and not just for practice  
+
+This new (old) dishwasher only had one caster remaining, so it wasn't nearly as mobile as I needed. I figured I'll just put it on a dolly and wheel it around. But where to get a dolly this size? It has to be strong, and just the right size, otherwise...broken dishes could occur! So I decided to build one. I measured the base, laid out a plan on paper, went to Home Depot, bought the wood, casters and screws, and then put it together in a short afternoon. I was so incredibly proud of my custom dolly I told my wife to give me extra husband points for not only finding the free dishwasher and making it work, but for also building a custom dolly. 
+
+My friend Tim pointed out that I could have just bought one at Home Depot, and that they came in different sizes. I told him that he was a wise man, and that I would heed his advice in future. I also cursed his first-born. I've included a picture of my mega-dolly below. It doesn't show the wheels, but it is on a fancy carpet. 
+
+![mega-dolly](/images/mega-dolly.jpg)
+
+##Lesson: Always google/discuss your ideas before you get started. Someone may have already solved your problem for you.  Everything you create will always be built on the hard work of those who came before you (tools, designs, best-practices etc.) so don't re-invent the wheel. 
+
+When I moved to a new place with a dishwasher, I ended up paying mine forward to a friend who was in the same bottle-hell that I was. I still have the dolly and I don't use it for anything at all. 
