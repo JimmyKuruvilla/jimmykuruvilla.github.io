@@ -4,7 +4,7 @@
   <title><![CDATA[Not A Programming Joke]]></title>
   <link href="http://JimmyKuruvilla.github.io/atom.xml" rel="self"/>
   <link href="http://JimmyKuruvilla.github.io/"/>
-  <updated>2014-11-24T21:33:39-05:00</updated>
+  <updated>2014-12-16T21:43:26-05:00</updated>
   <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VMachine]]></title>
+    <link href="http://JimmyKuruvilla.github.io/blog/2014/12/01/vmachine/"/>
+    <updated>2014-12-01T20:45:41-05:00</updated>
+    <id>http://JimmyKuruvilla.github.io/blog/2014/12/01/vmachine</id>
+    <content type="html"><![CDATA[<h3>Why should you develop in a Virtual Machine?</h3>
+
+<p>When I first started at the Flatiron School I got more than a few stares for using a PC. In fact for a place that otherwise espoused tolerance and a positive attitude, the feelings toward PCs were definitely more downward facing dog than rising eagle. To me this was a shock, the arguments against MACs were obvious - overly expensive, upgrades require a &ldquo;genius&rdquo;, used to not even run on x86 processors, have to pay for every single thing that is available as open source, and you can&rsquo;t play (as many/recent) games!</p>
+
+<p>After watching 40 students handle their Macs as development machines I will admit that there is a sexiness to newer Macbooks, and you definitely get what you pay for in terms of screen resolution, and who can argue that having the OS just work isn&rsquo;t something that you would want? For simplicity, The Flatiron School insists that you use a Mac. I used a linux  and Win 8 dual boot machine for most of my time there because they hadn&rsquo;t outright said I couldn&rsquo;t, and becuase I already owned one.</p>
+
+<h3>How did it go?</h3>
+
+<p>It was a major victory for proving it can be done. It was a minor hassle in terms of having to jump through a few more hoops on a curriculum designed for Macs. Some custom Flatiron gems needed tweaks to work, or Postgres had additional dependencies, or shortcuts in Sublime aren&rsquo;t the same. All in all it wasn&rsquo;t game breaking stuff, and I still prefer that I used a laptop I had ($500) over buying a new one ($2000) in an eco-system I had no intention of participating in. As we neared the end of the term I realized however that I was missing out on a third option : virtualization.</p>
+
+<h3>Why Virtualize?</h3>
+
+<p>Running an OS and development environment in a virtual machine has mostly ups, but also a few downs.</p>
+
+<h4>The Ups:</h4>
+
+<ol>
+<li><p>All your IDE/text editor settings, custom bash shortcuts, gems, ruby installations managed with RVM, file structure, apps you&rsquo;ve built, custom scripts etc. etc. are saved in the VM. My Kubuntu 14.04 (LTS) install + tools is about 23 GB. This includes everything I need to build Rails apps - sublime text, chrome, GIMP etc. Today that is TINY. I save mine to a external drive every few days. That means even if I lost my entire machine, I could set up for work on a new machine in literally the time it takes to copy over - about 10 min. In fact, when I can&rsquo;t use my laptop because I forgot it at school, I&rsquo;ve booted up the VM on my home machine and seamlessly resumed work.</p></li>
+<li><p>No messing around with Wine or other nonsense to get Windows only tools to work. Just jump to Windows, do your Autocad or whatever and come right back.</p></li>
+<li><p>You don&rsquo;t have to dual boot. If you need Windows (I know I know, no one needs Windows), but say you needed Windows (to play Starcraft, Skyrim, or some LoL let&rsquo;s say), by using a VM you can just drop out and be in Windows. No rebooting at all. And obviously if you wanted to run a VM session of OS X inside OS X to isolate your dev environment, I&rsquo;m pretty sure that wouldn&rsquo;t be too hard to do either.</p></li>
+</ol>
+
+
+<h4>The Downs:</h4>
+
+<ol>
+<li><p>The clock took a while to sync correctly with the host system. Sometimes it&rsquo;s still off, but can be corrected manually. Strangely enough on Github, times for commits etc. are based on local machine time, so this can be off putting.</p></li>
+<li><p>Keyboard repeat settings may need tweaking. Every so often I find myself with a few keystrokes I didn&rsquo;t type, and it occurs more often in lower power (lower CPU) states.</p></li>
+<li><p>Sharing files between the host and the guest machines can be a little fiddly. If you have a lot of data to transfer back and forth a specialized shared partition may make sense. I have a 30GB FAT32 partition shared between Windows (NTFS) and Ubuntu (EXT3). When mounted with CIFS the FAT32 permissions issue where everything shows up as executable are resolved, but you do still have the 4GB file size limit - I&rsquo;m not editing video so that hasn&rsquo;t been a problem. For smaller amounts of data or if you just can&rsquo;t be bothered, Github or Dropbox might be a more sensible solution.</p></li>
+<li><p>Getting 3D acceleration for Compiz effects and the like were a little more than fiddly but doable. You can live without it, but it does detract from the experience to have this be choppy, so it&rsquo;s worth doing right.</p></li>
+<li><p>Virtualization costs RAM and CPU cores. I have a quad core machine with 6GB of RAM and an AMD APU. The development enviroment gets 2 cores and 2 GB of RAM and hasn&rsquo;t stuttered yet. On a single core and 1GB of RAM, this still work satisfactorily, though I feel like I can tell the difference.</p></li>
+</ol>
+
+
+<p>So do it! It&rsquo;s worth a little hassle to never be left in the dark, and to always have all your options open.</p>
+
+<p>In the end I went with VMWare over Virtual Box - only because 3D acceleration was not working right on Virtual Box.  I also initially tried using a VMWare converter to take the original Linux install and convert it to a VM. This worked well, but again I could not figure out the 3D acceleration thing  so I went with a fresh install.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git-Dash]]></title>

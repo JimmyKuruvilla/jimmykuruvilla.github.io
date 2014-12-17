@@ -3,6 +3,14 @@
   
   
   <url>
+    <loc>http://JimmyKuruvilla.github.io/blog/2014/12/01/vmachine/</loc>
+    
+    <lastmod>2014-12-01T20:45:41-05:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://JimmyKuruvilla.github.io/blog/2014/11/22/git0-dash/</loc>
     
     <lastmod>2014-11-22T22:33:55-05:00</lastmod>
@@ -37,21 +45,21 @@
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/blog/archives/</loc>
-    <lastmod>2014-11-24T21:33:39-05:00</lastmod>
+    <lastmod>2014-12-16T21:43:26-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/</loc>
-    <lastmod>2014-11-24T21:33:39-05:00</lastmod>
+    <lastmod>2014-12-16T21:43:26-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://JimmyKuruvilla.github.io/search.html</loc>
-    <lastmod>2014-11-24T21:33:39-05:00</lastmod>
+    <lastmod>2014-12-16T21:43:26-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
