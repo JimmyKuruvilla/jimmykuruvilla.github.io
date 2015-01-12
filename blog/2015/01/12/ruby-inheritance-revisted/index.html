@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Inheritance Revisted - Not A Programming Joke</title>
+  <meta name="author" content="Jimmy Kuruvilla">
+
+  
+  <meta name="description" content="After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://JimmyKuruvilla.github.io/blog/2015/01/12/ruby-inheritance-revisted">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Not A Programming Joke" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Not A Programming Joke</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:JimmyKuruvilla.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby Inheritance Revisted</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-12T12:38:52-05:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about inheritance. So I told them all I used to work for a living and my grandmother left me nothing.</p>
+
+<p>After the uncomfortable crickets faded, I told them something like what&rsquo;s below. I selfishly wrote down some thoughts to solidify my own review of the topic.</p>
+
+<!-- more -->
+
+
+<p>Ruby does not have multiple inheritance like some other languages, but it does support this feature through the use of Mixins and you do get to inherit from one super class for free. Since Mixin sounds like we&rsquo;re cooking something up, let&rsquo;s define a two classes and a module like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Vegetable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">cook</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;urghggh!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Parent Class: I might give in&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Class Vegetable includes a class method cook, and an instance method cook_yo_self.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Potato</span> <span class="o">&lt;</span> <span class="no">Vegetable</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Veg</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">Veg</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">eat</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;eating mySELF!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">grow</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;growing to maxium vegetablosity of </span><span class="si">#{</span><span class="no">Veg</span><span class="o">::</span><span class="no">VEGNES</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Instance method: would you like fries with that?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Class Potato inherits from Vegetable, gaining its methods. So now</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">cook</span> <span class="ow">and</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">cook_yo_self</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>are possible. Note that the instance method cook_yo_self is called on a new instance of Potato, not the class.</p>
+
+<p>Class Potato also defines two instance methods: grow and cook_yo_self. We&rsquo;ll get to grow in a second. But first, let&rsquo;s look at the module Veg.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Veg</span>
+</span><span class='line'>  <span class="no">VEGNES</span><span class="o">=</span><span class="mi">9000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cry</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;much sadness&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Included Module: I will never give in&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also included and extended class Potato with module Veg. Including it means that the method cry is available to all instances of Potato.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">cry</span> <span class="c1">## much sadness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Extending with module Veg means that the class Potato also gains that method</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">cry</span> <span class="c1">## much sadness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An easy way to remember it that INcluding modules in classes allows INstances access to methods, and Extending doesn&rsquo;t have an &lsquo;I&rsquo; at the beginning. Just remember the first one.</p>
+
+<h2>Just Super</h2>
+
+<p>Asking the Russet potato to cook himself results in interesting output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">russet</span> <span class="o">=</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">russet</span><span class="o">.</span><span class="n">cook_yo_self</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">##Parent Class: I might give in</span>
+</span><span class='line'><span class="c1">##Included Module: I will never give in</span>
+</span><span class='line'><span class="c1">##Instance method: would you like fries with that?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Potato class&rsquo;s cook_yo_self method should only output &ldquo;Instance method: would you like fries with that?&rdquo; But because of the &lsquo;super&rsquo; statements, it instead includes the output of each cook_yo_self method from the class, the module and the parent class.</p>
+
+<p>The super key word is great, but more interesting is the order in which methods were invoked: first the object&rsquo;s class, then the included module, and then the parent class. Pretty sweet right? No of course not, they&rsquo;re potatos. But read <a href="https://practicingruby.com/articles/method-lookup-2">here</a> to learn more about the ruby method lookup chain. The order of modules included is in reverse inclusion order, and it also includes methods defined on the singleton.</p>
+
+<h2>quick side bar</h2>
+
+<p>What is a singleton? The singleton is an object itself. Maybe you want to add functionality to a particular object for testing or some other reason - the look up chain starts at the singleton level, because it is actually possible to do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">yukon_gold</span> <span class="o">=</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">yukon_gold</span><span class="o">.</span><span class="nf">singing_singleton</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;LA LA LA&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I just defined a method on the INSTANCE of Potato called yukon_gold, not the class.
+And you can do this as well:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Yukon_Only</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">canada_translator</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;eh, ay, AY?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="no">Yukon_Only</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">singing_singleton</span> <span class="c1">## LA LA LA</span>
+</span><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">canada_translator</span> <span class="c1">## eh, ay, AY?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These methods are only available on yukon_gold.</p>
+
+<h2>side bar over</h2>
+
+<p>Notice how Potato&rsquo;s grow method accesses the constant defined in the Veg module, the double colon allows us to call the constant in the namespace of Veg. That&rsquo;s the double colon&rsquo;s job - name spacing.</p>
+
+<h2>So how do you get a module into a class?</h2>
+
+<p> The whole point of putting things in modules is so that you can modularize and reuse code, so the module is probably defined in a different file than the one you&rsquo;re working on. The answer is with a require statement. If you&rsquo;ve saved your modules in &lsquo;modules.rb&rsquo;, just add in</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;path/to/modules.rb&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to your file.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jimmy Kuruvilla</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-12T12:38:52-05:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://JimmyKuruvilla.github.io/blog/2015/01/12/ruby-inheritance-revisted/" data-via="" data-counturl="http://JimmyKuruvilla.github.io/blog/2015/01/12/ruby-inheritance-revisted/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/17/stackup/" title="Previous Post: StackUp">&laquo; StackUp</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/12/ruby-inheritance-revisted/">Ruby Inheritance Revisted</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/17/stackup/">StackUp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/12/who-is-not-on-the-internet-right-now/">Who Is Not on the Internet Right Now?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/01/vmachine/">VMachine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/22/git0-dash/">Git-Dash</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jimmy Kuruvilla -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

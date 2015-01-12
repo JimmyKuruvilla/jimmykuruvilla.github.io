@@ -9,7 +9,7 @@
   <meta name="author" content="Jimmy Kuruvilla">
 
   
-  <meta name="description" content="According to Pew Research the age group using the internet the least right now are people over age 65. This might be because they prefer to do other &hellip;">
+  <meta name="description" content="After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,148 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/12/ruby-inheritance-revisted/">Ruby Inheritance Revisted</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-12T12:38:52-05:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about inheritance. So I told them all I used to work for a living and my grandmother left me nothing.</p>
+
+<p>After the uncomfortable crickets faded, I told them something like what&rsquo;s below. I selfishly wrote down some thoughts to solidify my own review of the topic.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/01/12/ruby-inheritance-revisted/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/17/stackup/">StackUp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-17T18:04:48-05:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://stack-up.herokuapp.com/">StackUp</a>
+StackUp was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
+
+<p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:
+* Each question must be appropriate to a new developer&rsquo;s level of knowledge
+* Each question must not have been answered at the time the daily email is sent
+* While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions
+* While possible each user must only receive questions they have not previously been sent</p>
+
+<p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:
+* Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)
+* Short questions are easier than long questions
+* Questions with little code are easier than questions with lots of code</p>
+
+<p>These assumptions, of course, do not always hold. Long questions with multiple tags and extensive code snippets may be resolved by a single line of code, while brief, code-less questions may harbor difficult questions on language design. Still, the algorithm has been relatively effective at identifying the small number of &ldquo;easy&rdquo; questions available on Stack Overflow at any given time. In the future, the StackUp team hopes to train a classifier algorithm with labeled examples to improve StackUp&rsquo;s ability to deliver questions calibrated to a user&rsquo;s preferred level of difficulty. StackUp is hosted on Heroku, Ruby on Rails powers the server side, JQuery helps to handle client side interactions, and GitHub&rsquo;s omniauth service is used for user authentication and registration.</p>
+
+<p><a href="http://github.com/JimmyKuruvilla/stackup">Find it on Github</a></p>
+
+<p>Every blog needs a code snippet! So here is our User model:
+* it ensures new users have unique emails
+* it checks emails for acceptability using the private method email_check,
+* sends a welcome email after registration
+* connects the user to its questions through a join table, and sets the join table entries to be destroyed if the user is destroyed
+* defines a method create a new user using the GitHub&rsquo;s OmniAuth response</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ActiveRecord::Base
+</span><span class='line'>  validates_uniqueness_of :email
+</span><span class='line'>  validate :email_check, on: :update
+</span><span class='line'>
+</span><span class='line'>  after_create :send_welcome_email
+</span><span class='line'>  has_many :user_questions, dependent: :destroy
+</span><span class='line'>  has_many :questions, through: :user_questions
+</span><span class='line'>  
+</span><span class='line'>  def self.create_with_omniauth(auth)
+</span><span class='line'>    User.create(uid: auth["uid"], name: auth["info"]["name"], email: auth["info"]["email"])
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>private
+</span><span class='line'>
+</span><span class='line'>  def email_check
+</span><span class='line'>    if !email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
+</span><span class='line'>      errors.add(:email, "Please enter a valid email address.")
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def send_welcome_email
+</span><span class='line'>    UserMailer.send_welcome_email(self).deliver
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -381,6 +523,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/01/12/ruby-inheritance-revisted/">Ruby Inheritance Revisted</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/17/stackup/">StackUp</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/12/who-is-not-on-the-internet-right-now/">Who Is Not on the Internet Right Now?</a>
       </li>
     
@@ -390,14 +540,6 @@
     
       <li class="post">
         <a href="/blog/2014/11/22/git0-dash/">Git-Dash</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/10/dishes/">Dishes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/30/what-happens-when-you-grow-a-database-with-columns/">What Happens When You Grow a Database Sideways?</a>
       </li>
     
   </ul>
@@ -413,7 +555,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Jimmy Kuruvilla -
+  Copyright &copy; 2015 - Jimmy Kuruvilla -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

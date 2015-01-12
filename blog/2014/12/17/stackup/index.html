@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>StackUp - Not A Programming Joke</title>
+  <meta name="author" content="Jimmy Kuruvilla">
+
+  
+  <meta name="description" content="StackUp
+StackUp was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Not A Programming Joke" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Not A Programming Joke</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:JimmyKuruvilla.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">StackUp</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-17T18:04:48-05:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://stack-up.herokuapp.com/">StackUp</a>
+StackUp was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
+
+<p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:
+* Each question must be appropriate to a new developer&rsquo;s level of knowledge
+* Each question must not have been answered at the time the daily email is sent
+* While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions
+* While possible each user must only receive questions they have not previously been sent</p>
+
+<p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:
+* Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)
+* Short questions are easier than long questions
+* Questions with little code are easier than questions with lots of code</p>
+
+<p>These assumptions, of course, do not always hold. Long questions with multiple tags and extensive code snippets may be resolved by a single line of code, while brief, code-less questions may harbor difficult questions on language design. Still, the algorithm has been relatively effective at identifying the small number of &ldquo;easy&rdquo; questions available on Stack Overflow at any given time. In the future, the StackUp team hopes to train a classifier algorithm with labeled examples to improve StackUp&rsquo;s ability to deliver questions calibrated to a user&rsquo;s preferred level of difficulty. StackUp is hosted on Heroku, Ruby on Rails powers the server side, JQuery helps to handle client side interactions, and GitHub&rsquo;s omniauth service is used for user authentication and registration.</p>
+
+<p><a href="http://github.com/JimmyKuruvilla/stackup">Find it on Github</a></p>
+
+<p>Every blog needs a code snippet! So here is our User model:
+* it ensures new users have unique emails
+* it checks emails for acceptability using the private method email_check,
+* sends a welcome email after registration
+* connects the user to its questions through a join table, and sets the join table entries to be destroyed if the user is destroyed
+* defines a method create a new user using the GitHub&rsquo;s OmniAuth response</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ActiveRecord::Base
+</span><span class='line'>  validates_uniqueness_of :email
+</span><span class='line'>  validate :email_check, on: :update
+</span><span class='line'>
+</span><span class='line'>  after_create :send_welcome_email
+</span><span class='line'>  has_many :user_questions, dependent: :destroy
+</span><span class='line'>  has_many :questions, through: :user_questions
+</span><span class='line'>  
+</span><span class='line'>  def self.create_with_omniauth(auth)
+</span><span class='line'>    User.create(uid: auth["uid"], name: auth["info"]["name"], email: auth["info"]["email"])
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>private
+</span><span class='line'>
+</span><span class='line'>  def email_check
+</span><span class='line'>    if !email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
+</span><span class='line'>      errors.add(:email, "Please enter a valid email address.")
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def send_welcome_email
+</span><span class='line'>    UserMailer.send_welcome_email(self).deliver
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jimmy Kuruvilla</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-12-17T18:04:48-05:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:04 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup/" data-via="" data-counturl="http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/12/who-is-not-on-the-internet-right-now/" title="Previous Post: Who is not on the internet right now?">&laquo; Who is not on the internet right now?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/01/12/ruby-inheritance-revisted/" title="Next Post: Ruby Inheritance Revisted">Ruby Inheritance Revisted &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/12/ruby-inheritance-revisted/">Ruby Inheritance Revisted</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/17/stackup/">StackUp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/12/who-is-not-on-the-internet-right-now/">Who Is Not on the Internet Right Now?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/01/vmachine/">VMachine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/22/git0-dash/">Git-Dash</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jimmy Kuruvilla -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

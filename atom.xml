@@ -4,7 +4,7 @@
   <title><![CDATA[Not A Programming Joke]]></title>
   <link href="http://JimmyKuruvilla.github.io/atom.xml" rel="self"/>
   <link href="http://JimmyKuruvilla.github.io/"/>
-  <updated>2014-12-17T15:34:58-05:00</updated>
+  <updated>2015-01-12T14:16:15-05:00</updated>
   <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
@@ -12,6 +12,310 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Inheritance Revisted]]></title>
+    <link href="http://JimmyKuruvilla.github.io/blog/2015/01/12/ruby-inheritance-revisted/"/>
+    <updated>2015-01-12T12:38:52-05:00</updated>
+    <id>http://JimmyKuruvilla.github.io/blog/2015/01/12/ruby-inheritance-revisted</id>
+    <content type="html"><![CDATA[<p>After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about inheritance. So I told them all I used to work for a living and my grandmother left me nothing.</p>
+
+<p>After the uncomfortable crickets faded, I told them something like what&rsquo;s below. I selfishly wrote down some thoughts to solidify my own review of the topic.</p>
+
+<!-- more -->
+
+
+<p>Ruby does not have multiple inheritance like some other languages, but it does support this feature through the use of Mixins and you do get to inherit from one super class for free. Since Mixin sounds like we&rsquo;re cooking something up, let&rsquo;s define a two classes and a module like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Vegetable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">cook</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;urghggh!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Parent Class: I might give in&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Class Vegetable includes a class method cook, and an instance method cook_yo_self.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Potato</span> <span class="o">&lt;</span> <span class="no">Vegetable</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Veg</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">Veg</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">eat</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;eating mySELF!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">grow</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;growing to maxium vegetablosity of </span><span class="si">#{</span><span class="no">Veg</span><span class="o">::</span><span class="no">VEGNES</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Instance method: would you like fries with that?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Class Potato inherits from Vegetable, gaining its methods. So now</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">cook</span> <span class="ow">and</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">cook_yo_self</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>are possible. Note that the instance method cook_yo_self is called on a new instance of Potato, not the class.</p>
+
+<p>Class Potato also defines two instance methods: grow and cook_yo_self. We&rsquo;ll get to grow in a second. But first, let&rsquo;s look at the module Veg.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Veg</span>
+</span><span class='line'>  <span class="no">VEGNES</span><span class="o">=</span><span class="mi">9000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cry</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;much sadness&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cook_yo_self</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Included Module: I will never give in&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also included and extended class Potato with module Veg. Including it means that the method cry is available to all instances of Potato.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">cry</span> <span class="c1">## much sadness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Extending with module Veg means that the class Potato also gains that method</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">cry</span> <span class="c1">## much sadness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An easy way to remember it that INcluding modules in classes allows INstances access to methods, and Extending doesn&rsquo;t have an &lsquo;I&rsquo; at the beginning. Just remember the first one.</p>
+
+<h2>Just Super</h2>
+
+<p>Asking the Russet potato to cook himself results in interesting output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">russet</span> <span class="o">=</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">russet</span><span class="o">.</span><span class="n">cook_yo_self</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">##Parent Class: I might give in</span>
+</span><span class='line'><span class="c1">##Included Module: I will never give in</span>
+</span><span class='line'><span class="c1">##Instance method: would you like fries with that?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Potato class&rsquo;s cook_yo_self method should only output &ldquo;Instance method: would you like fries with that?&rdquo; But because of the &lsquo;super&rsquo; statements, it instead includes the output of each cook_yo_self method from the class, the module and the parent class.</p>
+
+<p>The super key word is great, but more interesting is the order in which methods were invoked: first the object&rsquo;s class, then the included module, and then the parent class. Pretty sweet right? No of course not, they&rsquo;re potatos. But read <a href="https://practicingruby.com/articles/method-lookup-2">here</a> to learn more about the ruby method lookup chain. The order of modules included is in reverse inclusion order, and it also includes methods defined on the singleton.</p>
+
+<h2>quick side bar</h2>
+
+<p>What is a singleton? The singleton is an object itself. Maybe you want to add functionality to a particular object for testing or some other reason - the look up chain starts at the singleton level, because it is actually possible to do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">yukon_gold</span> <span class="o">=</span> <span class="no">Potato</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">yukon_gold</span><span class="o">.</span><span class="nf">singing_singleton</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;LA LA LA&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I just defined a method on the INSTANCE of Potato called yukon_gold, not the class.
+And you can do this as well:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Yukon_Only</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">canada_translator</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;eh, ay, AY?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="no">Yukon_Only</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">singing_singleton</span> <span class="c1">## LA LA LA</span>
+</span><span class='line'><span class="n">yukon_gold</span><span class="o">.</span><span class="n">canada_translator</span> <span class="c1">## eh, ay, AY?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These methods are only available on yukon_gold.</p>
+
+<h2>side bar over</h2>
+
+<p>Notice how Potato&rsquo;s grow method accesses the constant defined in the Veg module, the double colon allows us to call the constant in the namespace of Veg. That&rsquo;s the double colon&rsquo;s job - name spacing.</p>
+
+<h2>So how do you get a module into a class?</h2>
+
+<p> The whole point of putting things in modules is so that you can modularize and reuse code, so the module is probably defined in a different file than the one you&rsquo;re working on. The answer is with a require statement. If you&rsquo;ve saved your modules in &lsquo;modules.rb&rsquo;, just add in</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;path/to/modules.rb&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to your file.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[StackUp]]></title>
+    <link href="http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup/"/>
+    <updated>2014-12-17T18:04:48-05:00</updated>
+    <id>http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup</id>
+    <content type="html"><![CDATA[<p><a href="http://stack-up.herokuapp.com/">StackUp</a>
+StackUp was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
+
+<p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:
+* Each question must be appropriate to a new developer&rsquo;s level of knowledge
+* Each question must not have been answered at the time the daily email is sent
+* While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions
+* While possible each user must only receive questions they have not previously been sent</p>
+
+<p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:
+* Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)
+* Short questions are easier than long questions
+* Questions with little code are easier than questions with lots of code</p>
+
+<p>These assumptions, of course, do not always hold. Long questions with multiple tags and extensive code snippets may be resolved by a single line of code, while brief, code-less questions may harbor difficult questions on language design. Still, the algorithm has been relatively effective at identifying the small number of &ldquo;easy&rdquo; questions available on Stack Overflow at any given time. In the future, the StackUp team hopes to train a classifier algorithm with labeled examples to improve StackUp&rsquo;s ability to deliver questions calibrated to a user&rsquo;s preferred level of difficulty. StackUp is hosted on Heroku, Ruby on Rails powers the server side, JQuery helps to handle client side interactions, and GitHub&rsquo;s omniauth service is used for user authentication and registration.</p>
+
+<p><a href="http://github.com/JimmyKuruvilla/stackup">Find it on Github</a></p>
+
+<p>Every blog needs a code snippet! So here is our User model:
+* it ensures new users have unique emails
+* it checks emails for acceptability using the private method email_check,
+* sends a welcome email after registration
+* connects the user to its questions through a join table, and sets the join table entries to be destroyed if the user is destroyed
+* defines a method create a new user using the GitHub&rsquo;s OmniAuth response</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ActiveRecord::Base
+</span><span class='line'>  validates_uniqueness_of :email
+</span><span class='line'>  validate :email_check, on: :update
+</span><span class='line'>
+</span><span class='line'>  after_create :send_welcome_email
+</span><span class='line'>  has_many :user_questions, dependent: :destroy
+</span><span class='line'>  has_many :questions, through: :user_questions
+</span><span class='line'>  
+</span><span class='line'>  def self.create_with_omniauth(auth)
+</span><span class='line'>    User.create(uid: auth["uid"], name: auth["info"]["name"], email: auth["info"]["email"])
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>private
+</span><span class='line'>
+</span><span class='line'>  def email_check
+</span><span class='line'>    if !email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
+</span><span class='line'>      errors.add(:email, "Please enter a valid email address.")
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def send_welcome_email
+</span><span class='line'>    UserMailer.send_welcome_email(self).deliver
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Who Is Not on the Internet Right Now?]]></title>
