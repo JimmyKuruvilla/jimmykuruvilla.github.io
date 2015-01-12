@@ -4,7 +4,7 @@
   <title><![CDATA[Not A Programming Joke]]></title>
   <link href="http://JimmyKuruvilla.github.io/atom.xml" rel="self"/>
   <link href="http://JimmyKuruvilla.github.io/"/>
-  <updated>2015-01-12T14:16:15-05:00</updated>
+  <updated>2015-01-12T14:20:55-05:00</updated>
   <id>http://JimmyKuruvilla.github.io/</id>
   <author>
     <name><![CDATA[Jimmy Kuruvilla]]></name>
@@ -236,14 +236,16 @@ And you can do this as well:</p>
     <link href="http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup/"/>
     <updated>2014-12-17T18:04:48-05:00</updated>
     <id>http://JimmyKuruvilla.github.io/blog/2014/12/17/stackup</id>
-    <content type="html"><![CDATA[<p><a href="http://stack-up.herokuapp.com/">StackUp</a>
-StackUp was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
+    <content type="html"><![CDATA[<p><a href="http://stack-up.herokuapp.com/">StackUp</a> was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
 
 <p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:
 * Each question must be appropriate to a new developer&rsquo;s level of knowledge
 * Each question must not have been answered at the time the daily email is sent
 * While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions
 * While possible each user must only receive questions they have not previously been sent</p>
+
+<!-- more -->
+
 
 <p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:
 * Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)
