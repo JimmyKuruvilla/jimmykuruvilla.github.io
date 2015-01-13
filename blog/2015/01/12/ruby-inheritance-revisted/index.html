@@ -83,7 +83,7 @@
   </header>
 
 
-<div class="entry-content"><p>After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about inheritance. So I told them all I used to work for a living and my grandmother left me nothing.</p>
+<div class="entry-content"><p>After graduating from Flatiron School I&rsquo;ve been going on job interviews and it seems everyone really wants to know how much I know about inheritance. So I told them &ldquo;I used to work for a living and my grandmother left me nothing.&rdquo;</p>
 
 <p>After the uncomfortable crickets faded, I told them something like what&rsquo;s below. I selfishly wrote down some thoughts to solidify my own review of the topic.</p>
 
@@ -163,9 +163,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>are possible. Note that the instance method cook_yo_self is called on a new instance of Potato, not the class.</p>
+<p>are possible. Note that the instance method cook_yo_self from the Vegetable class is inherited, but also overridden by the local definition of the same. So the Potato class definition is the one that outputs, not the Vegetable one. I promise I did that for a reason as we&rsquo;ll see in a second.</p>
 
-<p>Class Potato also defines two instance methods: grow and cook_yo_self. We&rsquo;ll get to grow in a second. But first, let&rsquo;s look at the module Veg.</p>
+<p>Let&rsquo;s also look at the module Veg:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -196,7 +196,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We also included and extended class Potato with module Veg. Including it means that the method cry is available to all instances of Potato.</p>
+<p>Class Potato includes and is extended by module Veg. Including it means that the method cry is available to all instances of Potato.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Potato</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">cry</span> <span class="c1">## much sadness</span>
@@ -212,9 +212,9 @@
 
 <p>An easy way to remember it that INcluding modules in classes allows INstances access to methods, and Extending doesn&rsquo;t have an &lsquo;I&rsquo; at the beginning. Just remember the first one.</p>
 
-<h2>Just Super</h2>
+<h2>So That&rsquo;s Super</h2>
 
-<p>Asking the Russet potato to cook himself results in interesting output:</p>
+<p>Defining a new instance of Potato called Russet, and asking it to cook itself results in interesting output:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -233,7 +233,7 @@
 
 <p>The Potato class&rsquo;s cook_yo_self method should only output &ldquo;Instance method: would you like fries with that?&rdquo; But because of the &lsquo;super&rsquo; statements, it instead includes the output of each cook_yo_self method from the class, the module and the parent class.</p>
 
-<p>The super key word is great, but more interesting is the order in which methods were invoked: first the object&rsquo;s class, then the included module, and then the parent class. Pretty sweet right? No of course not, they&rsquo;re potatos. But read <a href="https://practicingruby.com/articles/method-lookup-2">here</a> to learn more about the ruby method lookup chain. The order of modules included is in reverse inclusion order, and it also includes methods defined on the singleton.</p>
+<p>Most interesting is the order in which methods were invoked: first the object&rsquo;s class, then the included module, and then the parent class. Pretty sweet right? No of course not, they&rsquo;re potatos. But read <a href="https://practicingruby.com/articles/method-lookup-2">here</a> to learn more about the ruby method lookup chain. The order of modules included is in reverse inclusion order, and it also includes methods defined on the singleton.</p>
 
 <h2>quick side bar</h2>
 

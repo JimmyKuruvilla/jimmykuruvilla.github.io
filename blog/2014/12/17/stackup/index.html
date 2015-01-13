@@ -85,32 +85,44 @@
 
 <div class="entry-content"><p><a href="http://stack-up.herokuapp.com/">StackUp</a> was built by myself and two others at the Flatiron School as part of the &lsquo;project mode&rsquo; portion of the curriculum.</p>
 
-<p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:
-* Each question must be appropriate to a new developer&rsquo;s level of knowledge
-* Each question must not have been answered at the time the daily email is sent
-* While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions
-* While possible each user must only receive questions they have not previously been sent</p>
+<p>StackUp allows you register an email address, and receive daily emails with questions the StackUp team has decided are suitable for newer developers. The questions are selected based on data provided by the Stack Overflow API and attempt to guarantee the following:</p>
+
+<ul>
+<li><p>Each question must be appropriate to a new developer&rsquo;s level of knowledge</p></li>
+<li><p>Each question must not have been answered at the time the daily email is sent</p></li>
+<li><p>While possible each user must receive a unique question from each other user so that users of StackUp don&rsquo;t cannibalize their own opportunities to answer questions</p></li>
+<li><p>While possible each user must only receive questions they have not previously been sent</p></li>
+</ul>
+
 
 <!-- more -->
 
 
-<p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:
-* Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)
-* Short questions are easier than long questions
-* Questions with little code are easier than questions with lots of code</p>
+<p>StackUp is powered by an algorithm that tries to differentiate between &ldquo;easy&rdquo; and &ldquo;hard&rdquo; questions based on the tags appended to a question, the overall length of a question, and the proportion of a question that consists of code. The algorithm is based on the following assumptions:</p>
+
+<ul>
+<li><p>Questions with a single, general tag (e.g., &ldquo;Ruby&rdquo;) are easier than questions with multiple, specific tags (e.g., &ldquo;Ruby&rdquo;, &ldquo;Ruby on Rails&rdquo;, &ldquo;SQL&rdquo;, &ldquo;JavaScript&rdquo;)</p></li>
+<li><p>Short questions are easier than long questions</p></li>
+<li><p>Questions with little code are easier than questions with lots of code</p></li>
+</ul>
+
 
 <p>These assumptions, of course, do not always hold. Long questions with multiple tags and extensive code snippets may be resolved by a single line of code, while brief, code-less questions may harbor difficult questions on language design. Still, the algorithm has been relatively effective at identifying the small number of &ldquo;easy&rdquo; questions available on Stack Overflow at any given time. In the future, the StackUp team hopes to train a classifier algorithm with labeled examples to improve StackUp&rsquo;s ability to deliver questions calibrated to a user&rsquo;s preferred level of difficulty. StackUp is hosted on Heroku, Ruby on Rails powers the server side, JQuery helps to handle client side interactions, and GitHub&rsquo;s omniauth service is used for user authentication and registration.</p>
 
 <p><a href="http://github.com/JimmyKuruvilla/stackup">Find it on Github</a></p>
 
-<p>Every blog needs a code snippet! So here is our User model:
-* it ensures new users have unique emails
-* it checks emails for acceptability using the private method email_check,
-* sends a welcome email after registration
-* connects the user to its questions through a join table, and sets the join table entries to be destroyed if the user is destroyed
-* defines a method create a new user using the GitHub&rsquo;s OmniAuth response</p>
+<p>Every blog needs a code snippet! So here is our User model:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<ul>
+<li><p>it ensures new users have unique emails</p></li>
+<li><p>it checks emails for acceptability using the private method email_check,</p></li>
+<li><p>sends a welcome email after registration</p></li>
+<li><p>connects the user to its questions through a join table, and sets the join table entries to be destroyed if the user is destroyed</p></li>
+<li><p>defines a method create a new user using the GitHub&rsquo;s OmniAuth response</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -135,31 +147,32 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ActiveRecord::Base
-</span><span class='line'>  validates_uniqueness_of :email
-</span><span class='line'>  validate :email_check, on: :update
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_uniqueness_of</span> <span class="ss">:email</span>
+</span><span class='line'>  <span class="n">validate</span> <span class="ss">:email_check</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="ss">:update</span>
 </span><span class='line'>
-</span><span class='line'>  after_create :send_welcome_email
-</span><span class='line'>  has_many :user_questions, dependent: :destroy
-</span><span class='line'>  has_many :questions, through: :user_questions
-</span><span class='line'>  
-</span><span class='line'>  def self.create_with_omniauth(auth)
-</span><span class='line'>    User.create(uid: auth["uid"], name: auth["info"]["name"], email: auth["info"]["email"])
-</span><span class='line'>  end
+</span><span class='line'>  <span class="n">after_create</span> <span class="ss">:send_welcome_email</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:user_questions</span><span class="p">,</span> <span class="ss">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:questions</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:user_questions</span>
 </span><span class='line'>
-</span><span class='line'>private
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_with_omniauth</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">uid</span><span class="p">:</span> <span class="n">auth</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="n">auth</span><span class="o">[</span><span class="s2">&quot;info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="n">auth</span><span class="o">[</span><span class="s2">&quot;info&quot;</span><span class="o">][</span><span class="s2">&quot;email&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  def email_check
-</span><span class='line'>    if !email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
-</span><span class='line'>      errors.add(:email, "Please enter a valid email address.")
-</span><span class='line'>    end
-</span><span class='line'>  end
+</span><span class='line'><span class="kp">private</span>
 </span><span class='line'>
-</span><span class='line'>  def send_welcome_email
-</span><span class='line'>    UserMailer.send_welcome_email(self).deliver
-</span><span class='line'>  end
+</span><span class='line'>  <span class="k">def</span> <span class="nf">email_check</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">email</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">errors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:email</span><span class="p">,</span> <span class="s2">&quot;Please enter a valid email address.&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">send_welcome_email</span>
+</span><span class='line'>    <span class="no">UserMailer</span><span class="o">.</span><span class="n">send_welcome_email</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="o">.</span><span class="n">deliver</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
